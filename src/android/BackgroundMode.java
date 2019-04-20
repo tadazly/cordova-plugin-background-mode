@@ -93,19 +93,14 @@ public class BackgroundMode extends CordovaPlugin {
     {
         boolean validAction = true;
 
-        switch (action)
-        {
-            case "configure":
-                configure(args.optJSONObject(0), args.optBoolean(1));
-                break;
-            case "enable":
-                enableMode();
-                break;
-            case "disable":
-                disableMode();
-                break;
-            default:
-                validAction = false;
+        if("configure".equals(action)){
+            configure(args.optJSONObject(0), args.optBoolean(1));
+        }else if("enable".equals(action)){
+            enableMode();
+        }else if("disable".equals(action)){
+            disableMode();
+        }else{
+            validAction = false;
         }
 
         if (validAction) {
@@ -283,8 +278,7 @@ public class BackgroundMode extends CordovaPlugin {
 
         String str = String.format("%s._setActive(%b)",
                 JS_NAMESPACE, active);
-
-        str = String.format("%s;%s.on%s(%s)",
+        str = String.format("%s;%s.on('%s', %s)",
                 str, JS_NAMESPACE, eventName, params);
 
         str = String.format("%s;%s.fireEvent('%s',%s);",
@@ -292,6 +286,11 @@ public class BackgroundMode extends CordovaPlugin {
 
         final String js = str;
 
-        cordova.getActivity().runOnUiThread(() -> webView.loadUrl("javascript:" + js));
+        cordova.getActivity().runOnUiThread(new Runnable(){
+            @Override
+            public void run() {
+                webView.loadUrl("javascript:" + js);
+            }
+        });
     }
 }

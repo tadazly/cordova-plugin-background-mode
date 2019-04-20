@@ -46,6 +46,8 @@ import org.json.JSONObject;
 import java.util.Arrays;
 import java.util.List;
 
+import android.content.DialogInterface;
+
 import static android.R.string.cancel;
 import static android.R.string.ok;
 import static android.R.style.Theme_DeviceDefault_Light_Dialog;
@@ -85,38 +87,27 @@ public class BackgroundModeExt extends CordovaPlugin {
     {
         boolean validAction = true;
 
-        switch (action)
-        {
-            case "battery":
-                disableBatteryOptimizations();
-                break;
-            case "webview":
-                disableWebViewOptimizations();
-                break;
-            case "appstart":
-                openAppStart(args.opt(0));
-                break;
-            case "background":
-                moveToBackground();
-                break;
-            case "foreground":
-                moveToForeground();
-                break;
-            case "tasklist":
-                excludeFromTaskList();
-                break;
-            case "dimmed":
-                isDimmed(callback);
-                break;
-            case "wakeup":
-                wakeup();
-                break;
-            case "unlock":
-                wakeup();
-                unlock();
-                break;
-            default:
-                validAction = false;
+        if("battery".equals(action)){
+            disableBatteryOptimizations();
+        }else if("webview".equals(action)){
+            disableWebViewOptimizations();
+        }else if("appstart".equals(action)){
+            openAppStart(args.opt(0));
+        }else if("background".equals(action)){
+            moveToBackground();
+        }else if("foreground".equals(action)){
+            moveToForeground();
+        }else if("tasklist".equals(action)){
+            excludeFromTaskList();
+        }else if("dimmed".equals(action)){
+            isDimmed(callback);
+        }else if("wakeup".equals(action)){
+            wakeup();
+        }else if("unlock".equals(action)){
+            wakeup();
+            unlock();
+        }else{
+            validAction = false;
         }
 
         if (validAction) {
@@ -165,15 +156,17 @@ public class BackgroundModeExt extends CordovaPlugin {
             public void run() {
                 try {
                     Thread.sleep(1000);
-                    getApp().runOnUiThread(() -> {
-                        View view = webView.getEngine().getView();
-
-                        try {
-                            Class.forName("org.crosswalk.engine.XWalkCordovaView")
-                                 .getMethod("onShow")
-                                 .invoke(view);
-                        } catch (Exception e){
-                            view.dispatchWindowVisibilityChanged(View.VISIBLE);
+                    getApp().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            View view = webView.getEngine().getView();
+                            try {
+                                Class.forName("org.crosswalk.engine.XWalkCordovaView")
+                                    .getMethod("onShow")
+                                    .invoke(view);
+                            } catch (Exception e){
+                                view.dispatchWindowVisibilityChanged(View.VISIBLE);
+                            }
                         }
                     });
                 } catch (InterruptedException e) {
@@ -217,10 +210,9 @@ public class BackgroundModeExt extends CordovaPlugin {
      */
     private void openAppStart (Object arg)
     {
-        Activity activity = cordova.getActivity();
-        PackageManager pm = activity.getPackageManager();
+        PackageManager pm = cordova.getActivity().getPackageManager();
 
-        for (Intent intent : getAppStartIntents())
+        for (final Intent intent : getAppStartIntents())
         {
             if (pm.resolveActivity(intent, MATCH_DEFAULT_ONLY) != null)
             {
@@ -230,14 +222,19 @@ public class BackgroundModeExt extends CordovaPlugin {
 
                 if (arg instanceof Boolean && !((Boolean) arg))
                 {
-                    activity.startActivity(intent);
+                    cordova.getActivity().startActivity(intent);
                     break;
                 }
 
-                AlertDialog.Builder dialog = new AlertDialog.Builder(activity, Theme_DeviceDefault_Light_Dialog);
+                final AlertDialog.Builder dialog = new AlertDialog.Builder(cordova.getActivity(), Theme_DeviceDefault_Light_Dialog);
 
-                dialog.setPositiveButton(ok, (o, d) -> activity.startActivity(intent));
-                dialog.setNegativeButton(cancel, (o, d) -> {});
+                dialog.setPositiveButton(ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        cordova.getActivity().startActivity(intent);
+                    }
+                });
+                dialog.setNegativeButton(cancel, null);
                 dialog.setCancelable(true);
 
                 if (spec != null && spec.has("title"))
@@ -254,8 +251,12 @@ public class BackgroundModeExt extends CordovaPlugin {
                     dialog.setMessage("missing text");
                 }
 
-                activity.runOnUiThread(dialog::show);
-
+                cordova.getActivity().runOnUiThread(new Runnable(){
+                    @Override
+                    public void run(){
+                        dialog.show();
+                    }
+                });
                 break;
             }
         }
@@ -368,7 +369,12 @@ public class BackgroundModeExt extends CordovaPlugin {
      */
     private void addSreenAndKeyguardFlags()
     {
-        getApp().runOnUiThread(() -> getApp().getWindow().addFlags(FLAG_ALLOW_LOCK_WHILE_SCREEN_ON | FLAG_SHOW_WHEN_LOCKED | FLAG_TURN_SCREEN_ON | FLAG_DISMISS_KEYGUARD));
+        getApp().runOnUiThread(new Runnable(){
+            @Override
+            public void run() {
+                getApp().getWindow().addFlags(FLAG_ALLOW_LOCK_WHILE_SCREEN_ON | FLAG_SHOW_WHEN_LOCKED | FLAG_TURN_SCREEN_ON | FLAG_DISMISS_KEYGUARD);
+            }
+        });
     }
 
     /**
@@ -376,15 +382,25 @@ public class BackgroundModeExt extends CordovaPlugin {
      */
     private void clearScreenAndKeyguardFlags()
     {
-        getApp().runOnUiThread(() -> getApp().getWindow().clearFlags(FLAG_ALLOW_LOCK_WHILE_SCREEN_ON | FLAG_SHOW_WHEN_LOCKED | FLAG_TURN_SCREEN_ON | FLAG_DISMISS_KEYGUARD));
+        getApp().runOnUiThread(new Runnable(){
+            @Override
+            public void run() {
+                getApp().getWindow().clearFlags(FLAG_ALLOW_LOCK_WHILE_SCREEN_ON | FLAG_SHOW_WHEN_LOCKED | FLAG_TURN_SCREEN_ON | FLAG_DISMISS_KEYGUARD);
+            }
+        });
     }
 
     /**
      * Removes required flags to the window to unlock/wakeup the device.
      */
-    static void clearKeyguardFlags (Activity app)
+    static void clearKeyguardFlags (final Activity app)
     {
-        app.runOnUiThread(() -> app.getWindow().clearFlags(FLAG_DISMISS_KEYGUARD));
+        app.runOnUiThread(new Runnable(){
+            @Override
+            public void run() {
+                app.getWindow().clearFlags(FLAG_DISMISS_KEYGUARD);
+            }
+        });
     }
 
     /**

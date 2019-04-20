@@ -1,8 +1,4 @@
 
-<p align="left">
-    <b><a href="https://github.com/katzer/cordova-plugin-background-mode/tree/example">SAMPLE APP</a> :point_right:</b>
-</p>
-
 Cordova Background Plugin [![npm version](https://badge.fury.io/js/cordova-plugin-background-mode.svg)](http://badge.fury.io/js/cordova-plugin-background-mode) [![Build Status](https://travis-ci.org/katzer/cordova-plugin-background-mode.svg?branch=master)](https://travis-ci.org/katzer/cordova-plugin-background-mode) [![codebeat badge](https://codebeat.co/badges/49709283-b313-4ced-8630-f520baaec7b5)](https://codebeat.co/projects/github-com-katzer-cordova-plugin-background-mode)
 =========================
 
@@ -19,30 +15,13 @@ Use the plugin by your own risk!
 
 ## Supported Platforms
 - __Android/Amazon FireOS__
-- __Browser__
-- __iOS__
-- __Windows__ _(see #222)_
-
 
 ## Installation
 The plugin can be installed via [Cordova-CLI][CLI] and is publicly available on [NPM][npm].
 
 Execute from the projects root folder:
 
-    $ cordova plugin add cordova-plugin-background-mode
-
-Or install a specific version:
-
-    $ cordova plugin add de.appplant.cordova.plugin.background-mode@VERSION
-
-Or install the latest head version:
-
-    $ cordova plugin add https://github.com/katzer/cordova-plugin-background-mode.git
-
-Or install from local source:
-
-    $ cordova plugin add cordova-plugin-background-mode --searchpath <path>
-
+    $ cordova plugin add @red-mobile/cordova-plugin-background-mode
 
 ## Usage
 The plugin creates the object `cordova.plugins.backgroundMode` and is accessible after the *deviceready* event has been fired.
@@ -174,7 +153,7 @@ Various APIs like playing media or tracking GPS position in background might not
 
 ```js
 cordova.plugins.backgroundMode.on('activate', function() {
-   cordova.plugins.backgroundMode.disableWebViewOptimizations(); 
+   cordova.plugins.backgroundMode.disableWebViewOptimizations();
 });
 ```
 
@@ -188,21 +167,3 @@ __Note:__ Calling the method led to increased resource and power consumption.
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
-
-
-## License
-
-This software is released under the [Apache 2.0 License][apache2_license].
-
-Made with :yum: from Leipzig
-
-? 2017 [appPlant GmbH][appplant] & [meshfields][meshfields]
-
-
-[cordova]: https://cordova.apache.org
-[CLI]: http://cordova.apache.org/docs/en/edge/guide_cli_index.md.html#The%20Command-line%20Interface
-[NPM]: ???
-[changelog]: CHANGELOG.md
-[apache2_license]: http://opensource.org/licenses/Apache-2.0
-[appplant]: http://appplant.de
-[meshfields]: http://meshfields.de
