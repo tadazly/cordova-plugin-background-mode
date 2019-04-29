@@ -21,7 +21,7 @@ The plugin can be installed via [Cordova-CLI][CLI] and is publicly available on 
 
 Execute from the projects root folder:
 
-    $ cordova plugin add @red-mobile/cordova-plugin-background-mode
+    $ cordova plugin add https://github.com/red-mobile/cordova-plugin-background-mode.git
 
 ## Usage
 The plugin creates the object `cordova.plugins.backgroundMode` and is accessible after the *deviceready* event has been fired.
