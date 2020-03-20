@@ -8,20 +8,33 @@ Most mobile operating systems are multitasking capable, but most apps dont need 
 The system keeps all network connections open while in background, but does not deliver the data until the app resumes.
 
 #### Store Compliance
+
 Infinite background tasks are not official supported on most mobile operation systems and thus not compliant with public store vendors. A successful submssion isn't garanteed.
 
 Use the plugin by your own risk!
 
 
 ## Supported Platforms
+
 - __Android/Amazon FireOS__
 
 ## Installation
+
 The plugin can be installed via [Cordova-CLI][CLI] and is publicly available on [NPM][npm].
 
 Execute from the projects root folder:
 
-    $ cordova plugin add https://github.com/red-mobile/cordova-plugin-background-mode.git
+```
+cordova plugin add @red-mobile/cordova-plugin-background-mode
+```
+
+### uninstall
+
+```
+cordova plugin remove cordova-plugin-background-mode
+npm uninstall @red-mobile/cordova-plugin-background-mode
+```
+
 
 ## Usage
 The plugin creates the object `cordova.plugins.backgroundMode` and is accessible after the *deviceready* event has been fired.
