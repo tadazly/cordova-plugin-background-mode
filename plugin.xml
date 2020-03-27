@@ -23,7 +23,6 @@
     <!-- cordova -->
     <engines>
         <engine name="cordova" version=">=7.1.0" />
-        <engine name="android-sdk" version=">=16" />
     </engines>
 
     <!-- js -->
