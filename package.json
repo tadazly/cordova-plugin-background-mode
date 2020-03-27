@@ -20,20 +20,11 @@
     "cordova-android",
     "cordova-browser"
   ],
-  "engines": [
-    {
-      "name": "cordova",
-      "version": ">=7.1.0"
-    },
-    {
-      "name": "android-sdk",
-      "version": ">=16"
-    },
-    {
-      "name": "windows-sdk",
-      "version": ">=10.0.14393.0"
-    }
-  ],
+  "engines": {
+    "cordova": ">=7.1.0",
+    "android-sdk": ">=16",
+    "windows-sdk": ">=10.0.14393.0"
+  },
   "author": "Hiroyuki Okada",
   "license": "Apache 2.0",
   "bugs": {
