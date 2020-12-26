@@ -31,8 +31,7 @@ cordova plugin add @red-mobile/cordova-plugin-background-mode
 ### uninstall
 
 ```
-cordova plugin remove cordova-plugin-background-mode
-npm uninstall @red-mobile/cordova-plugin-background-mode
+cordova plugin remove @red-mobile/cordova-plugin-background-mode
 ```
 
 
