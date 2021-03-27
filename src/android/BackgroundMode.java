@@ -278,14 +278,17 @@ public class BackgroundMode extends CordovaPlugin {
     private void stopService()
     {
         Activity context = cordova.getActivity();
-        Intent intent    = new Intent(context, ForegroundService.class);
+        Intent intent = new Intent(context, ForegroundService.class);
 
         if (!isBind) return;
 
-        fireEvent(Event.DEACTIVATE, null);
-        context.unbindService(connection);
-        context.stopService(intent);
-
+        try{
+            fireEvent(Event.DEACTIVATE, null);
+            context.unbindService(connection);
+            context.stopService(intent);
+        }catch(IllegalStateException e){
+            fireEvent(Event.FAILURE, String.format("'%s'", e.getMessage()));
+        }
         isBind = false;
     }
 
