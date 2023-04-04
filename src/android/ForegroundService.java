@@ -54,7 +54,7 @@ public class ForegroundService extends Service {
 
     // Default text of the background notification
     private static final String NOTIFICATION_TEXT =
-            "Doing heavy tasks.";
+            "Tap to return to the app";
 
     // Default icon of the background notification
     private static final String NOTIFICATION_ICON = "icon";
@@ -173,9 +173,9 @@ public class ForegroundService extends Service {
         String CHANNEL_ID = "cordova-plugin-background-mode-id";
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             // The user-visible name of the channel.
-            CharSequence name = settings.optString("channelName", "cordova-plugin-background-mode");
+            CharSequence name = settings.optString("channelName", "App Status Notifications");
             // The user-visible description of the channel.
-            String description = settings.optString("channelDescription", "cordova-plugin-background-moden notification");
+            String description = settings.optString("channelDescription", "App dtatus notifications when running in background");
 
             int importance = NotificationManager.IMPORTANCE_LOW;
 
