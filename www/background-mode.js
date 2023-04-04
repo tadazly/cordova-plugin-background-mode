@@ -454,7 +454,7 @@ exports._isActive = false;
 
 exports._defaults = {
     title:              'App is running in background',
-    text:               'Doing heavy tasks.',
+    text:               'Tap to return to the app',
     subText:            '',
     bigText:            false,
     resume:             true,
@@ -462,8 +462,8 @@ exports._defaults = {
     hidden:             true,
     color:              undefined,
     icon:               'icon',
-    channelName:        'cordova-plugin-background-mode',
-    channelDescription: 'cordova-plugin-background-moden notification',
+    channelName:        'App Status',
+    channelDescription: 'App status notifications when running in background',
     allowClose:         false,
     closeIcon:          'power',
     closeTitle:         'Close',

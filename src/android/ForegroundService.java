@@ -170,12 +170,12 @@ public class ForegroundService extends Service {
     private Notification makeNotification (JSONObject settings)
     {
         // use channelid for Oreo and higher
-        String CHANNEL_ID = "cordova-plugin-background-mode-id";
+        String CHANNEL_ID = "App-Status";
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             // The user-visible name of the channel.
-            CharSequence name = settings.optString("channelName", "App Status Notifications");
+            CharSequence name = settings.optString("channelName", "App Status");
             // The user-visible description of the channel.
-            String description = settings.optString("channelDescription", "App dtatus notifications when running in background");
+            String description = settings.optString("channelDescription", "App status notifications when running in background");
 
             int importance = NotificationManager.IMPORTANCE_LOW;
 
