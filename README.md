@@ -25,13 +25,13 @@ The plugin can be installed via [Cordova-CLI][CLI] and is publicly available on 
 Execute from the projects root folder:
 
 ```
-cordova plugin add @red-mobile/cordova-plugin-background-mode
+cordova plugin add https://github.com/tadazly/cordova-plugin-background-mode.git
 ```
 
 ### uninstall
 
 ```
-cordova plugin remove @red-mobile/cordova-plugin-background-mode
+cordova plugin remove cordova-plugin-background-mode
 ```
 
 

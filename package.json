@@ -1,9 +1,9 @@
 {
-  "name": "@red-mobile/cordova-plugin-background-mode",
+  "name": "cordova-plugin-background-mode",
   "version": "1.0.8",
   "description": "Prevent apps from going to sleep in background.",
   "cordova": {
-    "id": "@red-mobile/cordova-plugin-background-mode",
+    "id": "cordova-plugin-background-mode",
     "platforms": [
       "android"
     ]
